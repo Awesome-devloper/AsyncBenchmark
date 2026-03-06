@@ -1,0 +1,26 @@
+```
+
+BenchmarkDotNet v0.15.8, macOS Tahoe 26.3 (25D125) [Darwin 25.3.0]
+Apple M3, 1 CPU, 8 logical and 8 physical cores
+.NET SDK 11.0.100-preview.1.26104.118
+  [Host] : .NET 11.0.0 (11.0.0-preview.1.26104.118, 11.0.26.10518), Arm64 RyuJIT armv8.0-a
+
+Job=InProcess  Toolchain=InProcessEmitToolchain  
+
+```
+| Method               | DelayMs | Mean               | Error          | StdDev         | Ratio | RatioSD | Allocated | Alloc Ratio |
+|--------------------- |-------- |-------------------:|---------------:|---------------:|------:|--------:|----------:|------------:|
+| **SyncSleep**            | **0**       |          **0.3407 ns** |      **0.0011 ns** |      **0.0010 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
+| SimpleAsync          | 0       |          4.2961 ns |      0.0679 ns |      0.0635 ns | 12.61 |    0.18 |         - |          NA |
+| SimpleValueTaskAsync | 0       |          4.0038 ns |      0.0604 ns |      0.0535 ns | 11.75 |    0.16 |         - |          NA |
+| NestedAsync          | 0       |         16.0515 ns |      0.0188 ns |      0.0176 ns | 47.11 |    0.15 |         - |          NA |
+|                      |         |                    |                |                |       |         |           |             |
+| **SyncSleep**            | **1**       |  **1,153,995.7790 ns** |  **6,955.6148 ns** |  **6,506.2864 ns** |  **1.00** |    **0.01** |         **-** |          **NA** |
+| SimpleAsync          | 1       |  1,186,107.7092 ns | 22,427.8034 ns | 20,978.9813 ns |  1.03 |    0.02 |     585 B |          NA |
+| SimpleValueTaskAsync | 1       |  1,198,154.4556 ns | 22,097.3722 ns | 20,669.8957 ns |  1.04 |    0.02 |     648 B |          NA |
+| NestedAsync          | 1       |  3,518,736.7961 ns | 60,679.6419 ns | 56,759.7747 ns |  3.05 |    0.05 |    1391 B |          NA |
+|                      |         |                    |                |                |       |         |           |             |
+| **SyncSleep**            | **5**       |  **5,591,219.9559 ns** | **14,065.4417 ns** | **12,468.6477 ns** |  **1.00** |    **0.00** |         **-** |          **NA** |
+| SimpleAsync          | 5       |  5,663,313.5201 ns | 29,020.8110 ns | 25,726.1931 ns |  1.01 |    0.00 |     669 B |          NA |
+| SimpleValueTaskAsync | 5       |  5,678,214.3560 ns | 55,176.7936 ns | 48,912.7903 ns |  1.02 |    0.01 |     652 B |          NA |
+| NestedAsync          | 5       | 16,886,565.8594 ns | 78,058.5844 ns | 60,943.0082 ns |  3.02 |    0.01 |    1460 B |          NA |
